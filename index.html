@@ -1,0 +1,1891 @@
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap");
+
+    :root{
+      --bg: #163946;
+      --ink: rgba(255,255,255,0.94);
+      --muted: rgba(255,255,255,0.76);
+      --ring: rgba(255,255,255,0.14);
+      --glass: rgba(6,18,24,0.26);
+      --glass2: rgba(6,18,24,0.54);
+      --shadow: 0 28px 86px rgba(0,0,0,0.08);
+      --inner: inset 0 1px 0 rgba(255,255,255,0.10);
+      --radius: 30px;
+
+      --cPersonal:#6eb4b9;
+      --cSocial:#da6a40;
+      --cEarth:#97be70;
+
+      --cPersonalHi:#8ad0d4; --cPersonalLo:#3f8f95;
+      --cSocialHi:#ef8e6b;   --cSocialLo:#a94a2f;
+      --cEarthHi:#b8db98;    --cEarthLo:#5f8f42;
+
+      --wheelSize: min(592px, 36.5vw);
+      --spinGlowSoft: rgba(255,255,255,0.06);
+      --spinGlowStrong: rgba(255,255,255,0.12);
+      --spinGlowPulse: rgba(255,255,255,0.20);
+      --twbNavH: 0px;
+      --tvSafeX: clamp(20px, 3vw, 64px);
+      --tvSafeY: clamp(14px, 2.4vh, 44px);
+      --brandLogoRight: clamp(32px, 3.4vw, 66px);
+      --brandLogoBottom: clamp(26px, 3vh, 54px);
+      --brandLogoWidth: clamp(198px, 14.5vw, 330px);
+      --brandLogoMaxH: 68px;
+      --gameLogoReserveH: clamp(136px, 13.2vh, 196px);
+      --fontBrand: "Inter Tight", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    html, body{
+      margin: 0;
+      padding: 0;
+      background: #163946;
+    }
+
+    html.lfTvGamePage,
+    html.lfTvGamePage body{
+      height: 100%;
+      overflow: hidden !important;
+    }
+
+    /* Page scoped hide rules: only active when JS adds html.lfTvGamePage */
+    html.lfTvGamePage #header,
+    html.lfTvGamePage .Header,
+    html.lfTvGamePage .header,
+    html.lfTvGamePage [data-section-id="header"],
+    html.lfTvGamePage #footer-sections,
+    html.lfTvGamePage #page-footer,
+    html.lfTvGamePage .Footer,
+    html.lfTvGamePage footer{
+      display: none !important;
+    }
+
+    html.lfTvGamePage #siteWrapper,
+    html.lfTvGamePage #site-wrapper,
+    html.lfTvGamePage #page,
+    html.lfTvGamePage .sqs-announcement-bar-dropzone,
+    html.lfTvGamePage .sqs-announcement-bar{
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+      min-height: 100vh !important;
+      height: 100vh !important;
+    }
+
+    .twbMicrogame{
+      position: relative;
+      min-height: 100vh;
+      height: 100vh;
+      padding: var(--tvSafeY) 0 var(--tvSafeY);
+      background: #163946 !important;
+      background-image: none !important;
+      overflow: hidden;
+      font-family: var(--fontBrand);
+    }
+
+    .twbMicrogame .wrap{
+      max-width: 1920px;
+      margin: 0 auto;
+      padding: 0 var(--tvSafeX) calc(var(--tvSafeY) + 138px);
+      position: relative;
+    }
+
+    .twbMicrogame[data-intro="on"]{
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .twbMicrogame[data-intro="on"] .wrap{
+      max-width: none;
+      width: 100vw;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+    }
+
+    .twbMicrogame[data-intro="off"] .wrap{
+      padding-top: clamp(20px, 3vh, 46px);
+    }
+
+    .twbMicrogame .top{
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .twbMicrogame .logoMark{
+      position: fixed;
+      right: calc(var(--brandLogoRight) + env(safe-area-inset-right));
+      bottom: calc(var(--brandLogoBottom) + env(safe-area-inset-bottom));
+      width: var(--brandLogoWidth);
+      max-height: var(--brandLogoMaxH);
+      height: auto;
+      object-fit: contain;
+      opacity: 0.9;
+      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.18));
+      pointer-events: none;
+      z-index: 24;
+    }
+
+    .twbMicrogame .top,
+    .twbMicrogame .wheelModule,
+    .twbMicrogame .cardModule,
+    .twbMicrogame .logoMark{
+      transition:
+        opacity 760ms cubic-bezier(0.2, 0.7, 0.2, 1),
+        transform 760ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .twbMicrogame[data-intro="on"] .top{
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    .twbMicrogame[data-intro="on"] .wheelModule{
+      opacity: 0;
+      transform: translateY(46px) scale(0.9);
+    }
+
+    .twbMicrogame[data-intro="on"] .cardModule{
+      opacity: 0;
+      transform: translateY(54px);
+    }
+
+    .twbMicrogame[data-intro="on"] .stage{
+      pointer-events: none;
+    }
+
+    .twbMicrogame[data-intro="on"] .logoMark{
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    .twbMicrogame[data-intro="off"] .top,
+    .twbMicrogame[data-intro="off"] .wheelModule,
+    .twbMicrogame[data-intro="off"] .cardModule,
+    .twbMicrogame[data-intro="off"] .logoMark{
+      opacity: 1;
+      transform: none;
+    }
+
+    .twbMicrogame .introGate{
+      position: absolute;
+      inset: 0;
+      z-index: 40;
+      display: grid;
+      align-items: stretch;
+      padding: 0;
+      cursor: pointer;
+      background:
+        radial-gradient(1160px 780px at 78% 42%, rgba(34,105,145,0.18), transparent 64%),
+        radial-gradient(980px 760px at 12% 58%, rgba(5,40,62,0.54), transparent 66%),
+        linear-gradient(180deg, rgba(7,22,31,0.74), rgba(5,16,23,0.92));
+      transition:
+        opacity 620ms cubic-bezier(0.2, 0.7, 0.2, 1),
+        transform 620ms cubic-bezier(0.2, 0.7, 0.2, 1),
+        visibility 620ms linear;
+      touch-action: manipulation;
+    }
+
+    .twbMicrogame .introGate::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 0;
+      pointer-events: none;
+    }
+
+    .twbMicrogame .introGate::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,0.014) 0 1px,
+          transparent 1px 120px
+        );
+      opacity: 0.3;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .twbMicrogame .introInner{
+      position: relative;
+      width: min(980px, 74vw);
+      margin: auto auto auto clamp(30px, 10vw, 190px);
+      display: grid;
+      gap: clamp(8px, 1.25vh, 16px);
+      justify-items: start;
+      z-index: 1;
+    }
+
+    .twbMicrogame .introLogoCorner{
+      position: absolute;
+      right: var(--brandLogoRight);
+      bottom: var(--brandLogoBottom);
+      width: var(--brandLogoWidth);
+      max-height: var(--brandLogoMaxH);
+      object-fit: contain;
+      opacity: 0.88;
+      filter: drop-shadow(0 8px 22px rgba(0,0,0,0.22));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .twbMicrogame .introLead{
+      margin: 0;
+      color: rgba(255,255,255,0.84);
+      font-size: clamp(22px, 1.56vw, 31px);
+      line-height: 1.14;
+      letter-spacing: 0.004em;
+      font-weight: 430;
+      font-family: var(--fontBrand);
+      text-wrap: balance;
+      max-width: 26ch;
+    }
+
+    .twbMicrogame .introQuestion{
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(84px, 9.2vw, 172px);
+      line-height: 0.86;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+      text-transform: none;
+      font-family: var(--fontBrand);
+      text-wrap: balance;
+      text-shadow: none;
+      max-width: 9ch;
+    }
+
+    .twbMicrogame .introQuestion span{
+      display: block;
+    }
+
+    .twbMicrogame .introQuestion span:nth-child(2){
+      margin-left: clamp(16px, 2.6vw, 52px);
+    }
+
+    .twbMicrogame .introQuestion span:nth-child(4){
+      margin-left: clamp(40px, 4vw, 98px);
+    }
+
+    .twbMicrogame .introTap{
+      margin: clamp(14px, 2.6vh, 30px) 0 0;
+      display: inline-flex;
+      align-items: center;
+      gap: clamp(10px, 1vw, 16px);
+      color: rgba(255,255,255,0.82);
+      font-size: clamp(15px, 1.02vw, 20px);
+      line-height: 1.25;
+      letter-spacing: 0.003em;
+      text-transform: none;
+      font-family: var(--fontBrand);
+      opacity: 0.9;
+    }
+
+    .twbMicrogame .introTap span{
+      white-space: nowrap;
+    }
+
+    .twbMicrogame .introTap::before{
+      content: "";
+      width: clamp(34px, 2.7vw, 50px);
+      height: 1px;
+      background: rgba(255,255,255,0.48);
+    }
+
+    .twbMicrogame .introTap::after{
+      content: "";
+      width: clamp(5px, 0.5vw, 8px);
+      height: clamp(5px, 0.5vw, 8px);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.86);
+      animation: twbIntroCue 1.85s ease-in-out infinite;
+    }
+
+    @keyframes twbIntroCue{
+      0%, 100% { transform: translateX(0); opacity: 0.45; }
+      52%      { transform: translateX(5px); opacity: 1; }
+    }
+
+    .twbMicrogame .introGate.isHidden{
+      opacity: 0;
+      transform: translateY(-8px);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .twbMicrogame .eyebrow{
+      font-size: 18px!important;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .twbMicrogame .title{
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(44px, 4.1vw, 82px) !important;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      font-weight: 760;
+      max-width: 44ch;
+      text-wrap: balance;
+    }
+
+    .twbMicrogame .sub{
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(20px, 1.55vw, 32px)!important;
+      line-height: 1.35;
+      max-width: 76ch;
+      text-wrap: balance;
+    }
+
+    .twbMicrogame .stage{
+      display: grid;
+      gap: clamp(14px, 2vw, 22px);
+      grid-template-columns: minmax(440px, 596px) minmax(572px, 728px);
+      width: min(100%, 1380px);
+      margin: 10px auto 0;
+      justify-content: center;
+      align-items: stretch;
+      min-height: min(61vh, 732px);
+      padding-bottom: var(--gameLogoReserveH);
+    }
+
+    .twbMicrogame .module{
+      border-radius: var(--radius);
+      border: 1px solid var(--ring);
+      background: var(--glass);
+      box-shadow: var(--shadow), var(--inner);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .twbMicrogame .wheelModule{
+      padding: 18px 18px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      position: relative;
+    }
+
+    .twbMicrogame .wheelStage{
+      position: relative;
+      width: min(var(--wheelSize), 100%);
+      aspect-ratio: 1 / 1;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background:
+        radial-gradient(120px 120px at 35% 30%, rgba(255,255,255,0.10), transparent 60%),
+        radial-gradient(520px 520px at 50% 70%, rgba(0,0,0,0.35), transparent 62%),
+        rgba(6,18,24,0.30);
+      box-shadow:
+        0 22px 64px rgba(0,0,0,0.30),
+        inset 0 1px 0 rgba(255,255,255,0.10);
+      overflow: hidden;
+      overflow-anchor: none;
+    }
+
+    .twbMicrogame .wheelStage::before{
+      content:"";
+      position:absolute; inset:-40px;
+      border-radius: 999px;
+      background:
+        radial-gradient(320px 220px at 35% 22%, rgba(255,255,255,0.16), transparent 62%),
+        radial-gradient(380px 260px at 70% 78%, rgba(0,0,0,0.28), transparent 62%);
+      pointer-events:none;
+      z-index: 6;
+      mix-blend-mode: screen;
+      opacity: 0.55;
+    }
+
+    .twbMicrogame .wheelStage::after{
+      content:"";
+      position:absolute; inset:0;
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.00) 60%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0 1px, transparent 1px 6px);
+      pointer-events:none;
+      z-index: 7;
+      opacity: 0.35;
+    }
+
+    .twbMicrogame .pointer{
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 22px solid rgba(255,255,255,0.95);
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,0.40));
+      z-index: 12;
+    }
+
+    .twbMicrogame .pointerDot{
+      position: absolute;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.34);
+      z-index: 13;
+    }
+
+    .twbMicrogame .pointerDot.isBlinking{ animation: twbDotBlink 900ms ease-out 1; }
+
+    @keyframes twbDotBlink{
+      0%   { transform: translateX(-50%) scale(1.0); filter: brightness(1.0); }
+      45%  { transform: translateX(-50%) scale(1.25); filter: brightness(1.25); }
+      100% { transform: translateX(-50%) scale(1.0); filter: brightness(1.0); }
+    }
+
+    .twbMicrogame .wheelStage > svg{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:5;
+    }
+
+    .twbMicrogame .band{
+      stroke: rgba(255,255,255,0.16);
+      stroke-width: 1;
+      opacity: 0.18;
+      transition: opacity 280ms ease;
+    }
+
+    .twbMicrogame .band.on{ opacity: 0.98; }
+    .twbMicrogame .band.newOn{ animation: twbBandPop 520ms ease-out 1; }
+
+    @keyframes twbBandPop{
+      0%   { opacity: 0.45; }
+      45%  { opacity: 1.0; }
+      100% { opacity: 0.98; }
+    }
+
+    .twbMicrogame .wheelText{
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      fill: rgba(255,255,255,0.90);
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+      opacity: 0.95;
+    }
+
+    .twbMicrogame .wheelBtn{
+      position:absolute;
+      left:50%; top:50%;
+      transform: translate(-50%, -50%);
+      width: 138px; height: 138px;
+      border-radius: 999px;
+      background:
+        radial-gradient(110px 110px at 35% 30%, rgba(255,255,255,0.18), transparent 62%),
+        radial-gradient(140px 140px at 70% 80%, rgba(0,0,0,0.45), transparent 62%),
+        rgba(6,18,24,0.62);
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow:
+        0 22px 60px rgba(0,0,0,0.50),
+        0 0 0 10px rgba(255,255,255,0.05),
+        0 0 28px var(--spinGlowStrong),
+        inset 0 1px 0 rgba(255,255,255,0.14);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display:grid;
+      place-items:center;
+      z-index: 14;
+      color: var(--ink);
+      cursor:pointer;
+      user-select:none;
+      appearance:none;
+      transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+      touch-action: manipulation;
+    }
+
+    .twbMicrogame .wheelBtn span{
+      font-size: 15px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .twbMicrogame .wheelBtn:hover{
+      transform: translate(-50%, -50%) translateY(-1px);
+      box-shadow:
+        0 26px 70px rgba(0,0,0,0.55),
+        0 0 0 11px var(--spinGlowSoft),
+        0 0 30px var(--spinGlowStrong),
+        inset 0 1px 0 rgba(255,255,255,0.16);
+    }
+
+    .twbMicrogame .wheelBtn:active{
+      transform: translate(-50%, -50%) scale(0.98);
+      filter: brightness(0.98);
+    }
+
+    .twbMicrogame .wheelBtn[disabled]{ opacity:0.70; cursor:not-allowed; }
+
+    .twbMicrogame .wheelBtn::after{
+      content:"";
+      position:absolute;
+      inset:-16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 0 0 0 var(--spinGlowPulse);
+      opacity: 0.0;
+      pointer-events:none;
+    }
+
+    .twbMicrogame .wheelBtn.isPulsing::after{
+      opacity: 1;
+      animation: twbPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes twbPulse{
+      0%   { transform: scale(0.98); opacity: 0.0; box-shadow: 0 0 0 0 var(--spinGlowPulse); }
+      35%  { transform: scale(1.00); opacity: 0.9; box-shadow: 0 0 0 10px rgba(255,255,255,0.06); }
+      100% { transform: scale(1.05); opacity: 0.0; box-shadow: 0 0 0 18px rgba(255,255,255,0.00); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .twbMicrogame .wheelBtn.isPulsing::after{ animation: none; opacity: 0; }
+      .twbMicrogame .wheelBtn{ transition: none; }
+      .twbMicrogame .band{ transition: none; }
+      .twbMicrogame .pointerDot.isBlinking{ animation: none; }
+      .twbMicrogame .imgFrame img{ transition: none; }
+      .twbMicrogame .introTap::after{ animation: none; opacity: 0.72; }
+    }
+
+    .twbMicrogame .wheelFooter{
+      margin-top: auto;
+      width: 100%;
+      display: grid;
+      gap: 7px;
+      justify-items: center;
+      padding-top: 4px;
+    }
+
+    .twbMicrogame .status{
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.76);
+      text-align: center;
+      min-height: 16px;
+    }
+
+    .twbMicrogame .progress{
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.70);
+      text-align: center;
+      margin-top: -2px;
+    }
+
+    .twbMicrogame .cardModule{ padding: 18px; height: 100%; }
+
+    .twbMicrogame .imgCard{
+      border-radius: calc(var(--radius) - 6px);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 22px 70px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.10);
+      background: rgba(6,18,24,0.20);
+      position: relative;
+      height: 100%;
+    }
+
+    .twbMicrogame .imgFrame{
+      position: relative;
+      width: 100%;
+      height: clamp(460px, 62vh, 700px);
+      overflow: hidden;
+    }
+
+    .twbMicrogame .imgFrame img{
+      width:100%; height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.04);
+      transition: transform 900ms ease;
+      will-change: transform;
+      opacity: 0.98;
+    }
+
+    .twbMicrogame .imgCard.isLive .imgFrame img{ transform: scale(1.10); }
+
+    .twbMicrogame .imgShade{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      height: 52%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.62));
+      pointer-events:none;
+      z-index: 2;
+    }
+
+    .twbMicrogame .tag{
+      position:absolute;
+      top:16px; left:16px;
+      z-index:3;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(6,18,24,0.45);
+      border: 1px solid rgba(255,255,255,0.14);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.90);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .twbMicrogame .tag .dot{
+      width: 9px; height: 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.60);
+      box-shadow: 0 0 0 6px rgba(255,255,255,0.06);
+    }
+
+    .twbMicrogame .qPanel{
+      position:absolute;
+      left:16px; right:16px; bottom:16px;
+      z-index:4;
+      border-radius: 24px;
+      padding: 18px 18px 16px;
+      background:
+        radial-gradient(240px 160px at 30% 25%, rgba(255,255,255,0.12), transparent 70%),
+        rgba(6,18,24,0.55);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 22px 70px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.12);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .twbMicrogame .qTitle{
+      margin:0 0 10px;
+      color: var(--ink);
+      font-size: clamp(34px, 2.8vw, 62px);
+      line-height: 1.04;
+      font-weight: 780;
+      letter-spacing: -0.02em;
+      text-shadow: 0 16px 30px rgba(0,0,0,0.40);
+    }
+
+    .twbMicrogame .qTopic{
+      margin:0;
+      color: rgba(255,255,255,0.78);
+      font-size: 13px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 1200px){
+      :root{ --wheelSize: min(460px, 64vw); }
+
+      .twbMicrogame .stage{
+        grid-template-columns: 1fr;
+        width: 100%;
+        margin-top: 10px;
+        padding-bottom: clamp(56px, 6vh, 94px);
+      }
+      .twbMicrogame .imgFrame{ height: clamp(360px, 52vh, 560px); }
+
+      .twbMicrogame .introQuestion{
+        font-size: clamp(54px, 11vw, 132px);
+      }
+    }
+
+    @media (max-width: 640px){
+      .twbMicrogame{ overflow: visible; }
+      .twbMicrogame .wrap{ padding: 0 14px; }
+      .twbMicrogame[data-intro="on"]{ overflow: hidden; }
+      .twbMicrogame[data-intro="on"] .wrap{
+        padding: 0;
+        width: 100vw;
+        min-height: 100vh;
+      }
+      .twbMicrogame .stage{ gap: 12px; overflow: visible; }
+      .twbMicrogame .module{ border-radius: 26px; }
+      :root{ --wheelSize: min(240px, 68vw); }
+
+      .twbMicrogame .wheelModule{
+        padding: 12px 12px 10px;
+        gap: 8px;
+        position: sticky;
+        top: calc(var(--twbNavH) + 10px);
+        z-index: 30;
+      }
+
+      .twbMicrogame .wheelBtn{ width: 92px; height: 92px; }
+      .twbMicrogame .wheelBtn span{ font-size: 12px; }
+      .twbMicrogame .pointer{ border-left-width: 12px; border-right-width: 12px; border-top-width: 18px; }
+      .twbMicrogame .pointerDot{ top: 28px; width: 9px; height: 9px; }
+
+      .twbMicrogame .wheelFooter{ gap: 5px; padding-top: 2px; }
+      .twbMicrogame .status,
+      .twbMicrogame .progress{ font-size: 11px; letter-spacing: 0.14em; }
+
+      .twbMicrogame .cardModule{ padding: 14px; }
+      .twbMicrogame .imgFrame{ height: clamp(220px, 30vh, 300px); }
+
+      .twbMicrogame .tag{ top: 12px; left: 12px; padding: 9px 12px; font-size: 11px; }
+
+      .twbMicrogame .qPanel{ left: 12px; right: 12px; bottom: 12px; padding: 16px 16px 14px; border-radius: 22px; }
+      .twbMicrogame .qTitle{ font-size: clamp(24px, 7.4vw, 34px); margin: 0 0 8px; }
+      .twbMicrogame .qTopic{ font-size: 11px; letter-spacing: 0.20em; }
+
+      :root{
+        --brandLogoRight: 14px;
+        --brandLogoBottom: 14px;
+        --brandLogoWidth: min(214px, 54vw);
+        --brandLogoMaxH: 50px;
+        --gameLogoReserveH: clamp(78px, 10vh, 116px);
+      }
+
+      .twbMicrogame .title{ font-size: clamp(34px, 9vw, 46px) !important; }
+      .twbMicrogame .sub{ font-size: 17px !important; }
+
+      .twbMicrogame .introGate{
+        padding: 0;
+      }
+
+      .twbMicrogame .introInner{
+        width: min(90vw, 560px);
+        gap: 10px;
+        margin: auto auto auto clamp(14px, 7vw, 34px);
+      }
+
+      .twbMicrogame .introLead{
+        font-size: clamp(20px, 5.8vw, 28px);
+      }
+
+      .twbMicrogame .introQuestion{
+        font-size: clamp(60px, 14vw, 96px);
+        line-height: 0.86;
+        max-width: 10ch;
+      }
+
+      .twbMicrogame .introQuestion span:nth-child(2),
+      .twbMicrogame .introQuestion span:nth-child(4){
+        margin-left: 0;
+      }
+
+      .twbMicrogame .introTap{
+        font-size: clamp(15px, 4.4vw, 20px);
+        gap: 8px;
+      }
+
+      .twbMicrogame .introTap::before{
+        width: 30px;
+      }
+    }
+    /* Inverted TV theme: white surface, dark typography */
+    :root{
+      --bg: #f7f9fb;
+      --ink: rgba(19,46,60,0.94);
+      --muted: rgba(19,46,60,0.70);
+      --ring: rgba(19,46,60,0.14);
+      --glass: rgba(255,255,255,0.76);
+      --glass2: rgba(255,255,255,0.92);
+      --shadow: 0 20px 52px rgba(16,41,54,0.10);
+      --inner: inset 0 1px 0 rgba(255,255,255,0.86);
+      --cPersonal:#5ea9b6;
+      --cSocial:#df6f44;
+      --cEarth:#7eaf4d;
+      --cPersonalHi:#89d1dc;
+      --cPersonalLo:#347a86;
+      --cSocialHi:#f59b74;
+      --cSocialLo:#a84a2c;
+      --cEarthHi:#a8cf73;
+      --cEarthLo:#4f7732;
+    }
+
+    html, body,
+    .twbMicrogame{
+      background: #f7f9fb !important;
+      color: var(--ink);
+    }
+
+    .twbMicrogame .logoMark,
+    .twbMicrogame .introLogoCorner{
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      filter: drop-shadow(0 4px 10px rgba(16,41,54,0.14));
+    }
+
+    .twbMicrogame .introGate{
+      background:
+        radial-gradient(1200px 820px at 80% 44%, rgba(82,140,170,0.16), transparent 62%),
+        radial-gradient(980px 760px at 14% 56%, rgba(162,195,210,0.28), transparent 64%),
+        linear-gradient(180deg, #fcfdff, #f1f6f9);
+    }
+
+    .twbMicrogame .introGate::before{
+      border-color: rgba(18,44,58,0.16);
+    }
+
+    .twbMicrogame .introGate::after{
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(18,44,58,0.04) 0 1px,
+          transparent 1px 120px
+        );
+      opacity: 0.35;
+      mix-blend-mode: multiply;
+    }
+
+    .twbMicrogame .introLead,
+    .twbMicrogame .introQuestion,
+    .twbMicrogame .introTap,
+    .twbMicrogame .eyebrow,
+    .twbMicrogame .title,
+    .twbMicrogame .sub{
+      color: var(--ink);
+      text-shadow: none;
+    }
+
+    .twbMicrogame .introTap::before{
+      background: rgba(19,46,60,0.46);
+      width: clamp(46px, 3.2vw, 70px);
+      transform-origin: left center;
+      animation: twbIntroLineSweep 1.9s ease-in-out infinite;
+    }
+
+    .twbMicrogame .introTap::after{
+      background: rgba(19,46,60,0.86);
+      width: clamp(8px, 0.72vw, 12px);
+      height: clamp(8px, 0.72vw, 12px);
+      box-shadow: 0 0 0 0 rgba(19,46,60,0.28);
+      animation: twbIntroDotLift 1.9s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+    }
+
+    .twbMicrogame .introTap{
+      font-size: clamp(20px, 1.28vw, 30px);
+      font-weight: 560;
+      letter-spacing: 0.002em;
+      animation: twbIntroTapLift 1.9s ease-in-out infinite;
+    }
+
+    @keyframes twbIntroTapLift{
+      0%, 100% { transform: translateY(0); opacity: 0.9; }
+      45%      { transform: translateY(-2px); opacity: 1; }
+    }
+
+    @keyframes twbIntroLineSweep{
+      0%, 100% { transform: scaleX(0.84); opacity: 0.56; }
+      45%      { transform: scaleX(1); opacity: 0.98; }
+    }
+
+    @keyframes twbIntroDotLift{
+      0%, 100% {
+        transform: translateX(0) scale(0.92);
+        opacity: 0.58;
+        box-shadow: 0 0 0 0 rgba(19,46,60,0.24);
+      }
+      45% {
+        transform: translateX(11px) scale(1.12);
+        opacity: 1;
+        box-shadow: 0 0 0 10px rgba(19,46,60,0.00);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .twbMicrogame .introTap,
+      .twbMicrogame .introTap::before,
+      .twbMicrogame .introTap::after{
+        animation: none;
+      }
+    }
+
+    .twbMicrogame .module{
+      background: rgba(255,255,255,0.78);
+      border-color: rgba(19,46,60,0.16);
+      box-shadow: 0 18px 46px rgba(16,41,54,0.10), inset 0 1px 0 rgba(255,255,255,0.90);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .twbMicrogame .wheelStage{
+      border-color: rgba(19,46,60,0.15);
+      background:
+        radial-gradient(140px 140px at 35% 30%, rgba(255,255,255,0.86), transparent 60%),
+        radial-gradient(560px 560px at 50% 70%, rgba(19,46,60,0.13), transparent 63%),
+        rgba(236,245,249,0.88);
+      box-shadow:
+        0 20px 44px rgba(16,41,54,0.14),
+        inset 0 1px 0 rgba(255,255,255,0.92);
+    }
+
+    .twbMicrogame .wheelStage::before{
+      background:
+        radial-gradient(320px 220px at 35% 22%, rgba(255,255,255,0.62), transparent 64%),
+        radial-gradient(380px 260px at 70% 78%, rgba(19,46,60,0.14), transparent 62%);
+      mix-blend-mode: normal;
+      opacity: 0.7;
+    }
+
+    .twbMicrogame .wheelStage::after{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.40), rgba(255,255,255,0.00) 62%),
+        repeating-linear-gradient(90deg, rgba(18,44,58,0.03) 0 1px, transparent 1px 6px);
+      opacity: 0.4;
+    }
+
+    .twbMicrogame .pointer{
+      border-top-color: rgba(19,46,60,0.86);
+      filter: drop-shadow(0 10px 14px rgba(16,41,54,0.25));
+    }
+
+    .twbMicrogame .pointerDot{
+      background: rgba(19,46,60,0.84);
+      box-shadow: 0 10px 18px rgba(16,41,54,0.20);
+    }
+
+    .twbMicrogame .band{
+      stroke: rgba(19,46,60,0.22);
+      opacity: 0.16;
+    }
+
+    .twbMicrogame .band.on{
+      opacity: 0.98;
+    }
+
+    .twbMicrogame .band.personal.on{
+      filter: saturate(1.05) brightness(1.08);
+    }
+
+    .twbMicrogame .band.social.on{
+      filter: saturate(1.28) brightness(1.06);
+    }
+
+    .twbMicrogame .band.earth.on{
+      filter: saturate(1.34) brightness(0.98) contrast(1.04);
+    }
+
+    .twbMicrogame .band.newOn{
+      filter: saturate(1.28) brightness(1.1);
+    }
+
+    .twbMicrogame .wheelText{
+      fill: rgba(19,46,60,0.86);
+    }
+
+    .twbMicrogame .wheelBtn{
+      color: #ffffff;
+      background:
+        radial-gradient(118px 118px at 32% 28%, rgba(255,255,255,0.20), transparent 60%),
+        linear-gradient(155deg, rgba(15,39,52,0.98), rgba(19,46,60,0.98));
+      border-color: rgba(255,255,255,0.62);
+      box-shadow:
+        0 20px 46px rgba(10,29,39,0.34),
+        0 0 0 10px rgba(19,46,60,0.11),
+        0 0 26px rgba(19,46,60,0.34),
+        inset 0 1px 0 rgba(255,255,255,0.24);
+    }
+
+    .twbMicrogame .wheelBtn span{
+      color: #ffffff;
+    }
+
+    .twbMicrogame .status,
+    .twbMicrogame .progress{
+      color: rgba(19,46,60,0.78);
+    }
+
+    .twbMicrogame .imgCard{
+      background: rgba(255,255,255,0.82);
+      border-color: rgba(19,46,60,0.15);
+      box-shadow: 0 20px 52px rgba(16,41,54,0.14), inset 0 1px 0 rgba(255,255,255,0.92);
+    }
+
+    .twbMicrogame .tag{
+      background: rgba(250,254,255,0.82);
+      border-color: rgba(19,46,60,0.18);
+      box-shadow: 0 10px 28px rgba(16,41,54,0.14), inset 0 1px 0 rgba(255,255,255,0.90);
+      color: rgba(19,46,60,0.86);
+    }
+
+    .twbMicrogame .tag .dot{
+      background: rgba(19,46,60,0.60);
+      box-shadow: 0 0 0 6px rgba(19,46,60,0.08);
+    }
+
+    .twbMicrogame .imgShade{
+      background: linear-gradient(180deg, rgba(255,255,255,0.00), rgba(16,40,52,0.30));
+    }
+
+    .twbMicrogame .qPanel{
+      background:
+        radial-gradient(240px 160px at 30% 25%, rgba(255,255,255,0.72), transparent 72%),
+        rgba(247,252,255,0.84);
+      border-color: rgba(19,46,60,0.18);
+      box-shadow: 0 16px 42px rgba(16,41,54,0.16), inset 0 1px 0 rgba(255,255,255,0.92);
+    }
+
+    .twbMicrogame .qTitle{
+      color: rgba(17,42,56,0.94);
+      text-shadow: none;
+    }
+
+    .twbMicrogame .qTopic{
+      color: rgba(19,46,60,0.74);
+    }
+  </style>
+<section class="twbMicrogame" id="twbMicrogame" aria-label="Learning for Life conversation microgame" data-intro="on">
+  <div class="wrap">
+    <div class="introGate" id="introGate" role="button" tabindex="0" aria-label="Start experience">
+      <div class="introInner">
+        <p class="introLead">Human flourishing. In the classroom.</p>
+        <h1 class="introQuestion">
+          <span>What</span>
+          <span>could we</span>
+          <span>be talking</span>
+          <span>about?</span>
+        </h1>
+        <div class="introTap"><span>Tap to find out.</span></div>
+      </div>
+      <img class="introLogoCorner" src="https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/68297246dd236b3ed0b85c7b/1747546696339/TB_DARK-Logo.png" alt="ThoughtBox logo" loading="eager" decoding="async">
+    </div>
+
+    <img class="logoMark" src="https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/68297246dd236b3ed0b85c7b/1747546696339/TB_DARK-Logo.png" alt="Learning for Life logo" loading="eager" decoding="async">
+
+    <div class="top">
+      <div class="eyebrow">LEARNING FOR LIFE</div>
+      <h2 class="title">Get a feel. Spin the wheel.</h2>
+    </div>
+
+    <div class="stage">
+
+      <div class="module wheelModule">
+        <div class="wheelStage">
+          <div class="pointer" aria-hidden="true"></div>
+          <div class="pointerDot" id="pointerDot" aria-hidden="true"></div>
+
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <radialGradient id="gPersonal" cx="35%" cy="30%" r="85%">
+                <stop offset="0%"  stop-color="var(--cPersonalHi)"/>
+                <stop offset="55%" stop-color="var(--cPersonal)"/>
+                <stop offset="100%" stop-color="var(--cPersonalLo)"/>
+              </radialGradient>
+              <radialGradient id="gSocial" cx="35%" cy="30%" r="85%">
+                <stop offset="0%"  stop-color="var(--cSocialHi)"/>
+                <stop offset="55%" stop-color="var(--cSocial)"/>
+                <stop offset="100%" stop-color="var(--cSocialLo)"/>
+              </radialGradient>
+              <radialGradient id="gEarth" cx="35%" cy="30%" r="85%">
+                <stop offset="0%"  stop-color="var(--cEarthHi)"/>
+                <stop offset="55%" stop-color="var(--cEarth)"/>
+                <stop offset="100%" stop-color="var(--cEarthLo)"/>
+              </radialGradient>
+
+              <radialGradient id="gWheelInner" cx="50%" cy="50%" r="60%">
+                <stop offset="0%" stop-color="rgba(0,0,0,0.00)"/>
+                <stop offset="70%" stop-color="rgba(0,0,0,0.00)"/>
+                <stop offset="100%" stop-color="rgba(0,0,0,0.30)"/>
+              </radialGradient>
+            </defs>
+
+            <g id="wheelGroup" transform="rotate(0 100 100)">
+              <path class="band personal" id="bandPersonal0" fill="url(#gPersonal)"></path>
+              <path class="band personal" id="bandPersonal1" fill="url(#gPersonal)"></path>
+              <path class="band personal" id="bandPersonal2" fill="url(#gPersonal)"></path>
+              <path class="band personal" id="bandPersonal3" fill="url(#gPersonal)"></path>
+              <path class="band personal" id="bandPersonal4" fill="url(#gPersonal)"></path>
+              <path class="band personal" id="bandPersonal5" fill="url(#gPersonal)"></path>
+
+              <path class="band social" id="bandSocial0" fill="url(#gSocial)"></path>
+              <path class="band social" id="bandSocial1" fill="url(#gSocial)"></path>
+              <path class="band social" id="bandSocial2" fill="url(#gSocial)"></path>
+              <path class="band social" id="bandSocial3" fill="url(#gSocial)"></path>
+              <path class="band social" id="bandSocial4" fill="url(#gSocial)"></path>
+              <path class="band social" id="bandSocial5" fill="url(#gSocial)"></path>
+
+              <path class="band earth" id="bandEarth0" fill="url(#gEarth)"></path>
+              <path class="band earth" id="bandEarth1" fill="url(#gEarth)"></path>
+              <path class="band earth" id="bandEarth2" fill="url(#gEarth)"></path>
+              <path class="band earth" id="bandEarth3" fill="url(#gEarth)"></path>
+              <path class="band earth" id="bandEarth4" fill="url(#gEarth)"></path>
+              <path class="band earth" id="bandEarth5" fill="url(#gEarth)"></path>
+
+              <circle cx="100" cy="100" r="98" fill="url(#gWheelInner)" opacity="0.35"></circle>
+
+              <text class="wheelText" id="lblPersonal">PERSONAL</text>
+              <text class="wheelText" id="lblSocial">SOCIAL</text>
+              <text class="wheelText" id="lblEarth">EARTH</text>
+            </g>
+          </svg>
+
+          <button class="wheelBtn isPulsing" type="button" id="spinBtn" aria-label="Spin the wheel">
+            <span id="spinLabel">Spin</span>
+          </button>
+        </div>
+
+        <div class="wheelFooter">
+          <div class="status" id="statusLine" aria-live="polite">A conversation is waiting to unfold.</div>
+          <div class="progress" id="progLine">Question 0 of 18</div>
+        </div>
+      </div>
+
+      <div class="module cardModule">
+        <div class="imgCard" id="imgCard">
+          <div class="tag" id="tag">
+            <span class="dot" id="tagDot" aria-hidden="true"></span>
+            <span id="tagText">Ready when you are</span>
+          </div>
+
+          <div class="imgFrame" aria-hidden="true">
+            <img id="cardImg" alt="" loading="eager" fetchpriority="high" decoding="async">
+          </div>
+
+          <div class="imgShade" aria-hidden="true"></div>
+
+          <div class="qPanel" aria-live="polite">
+            <h3 class="qTitle" id="cardQ">Your next conversation</h3>
+            <p class="qTopic" id="cardTopic">Spin the wheel to reveal a topic</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  if(window.__twbMicrogameWedgeBarsInit) return;
+  window.__twbMicrogameWedgeBarsInit = true;
+
+  function init(){
+    const root = document.getElementById("twbMicrogame");
+    if(!root) return;
+
+    document.documentElement.classList.add("lfTvGamePage");
+
+    const wheelGroup  = document.getElementById("wheelGroup");
+    const spinBtn     = document.getElementById("spinBtn");
+    const spinLabel   = document.getElementById("spinLabel");
+    const statusLine  = document.getElementById("statusLine");
+    const progLine    = document.getElementById("progLine");
+    const introGate   = document.getElementById("introGate");
+
+    const lblPersonal = document.getElementById("lblPersonal");
+    const lblSocial   = document.getElementById("lblSocial");
+    const lblEarth    = document.getElementById("lblEarth");
+
+    const imgCard     = document.getElementById("imgCard");
+    const cardImg     = document.getElementById("cardImg");
+    const cardQ       = document.getElementById("cardQ");
+    const cardTopic   = document.getElementById("cardTopic");
+
+    const tagText     = document.getElementById("tagText");
+    const tagDot      = document.getElementById("tagDot");
+    const pointerDot  = document.getElementById("pointerDot");
+
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function addPreconnect(url){
+      if(!url || !document.head) return;
+      if(document.head.querySelector(`link[rel="preconnect"][href="${url}"]`)) return;
+      try{
+        const preconnect = document.createElement("link");
+        preconnect.rel = "preconnect";
+        preconnect.href = url;
+        preconnect.crossOrigin = "anonymous";
+        document.head.appendChild(preconnect);
+
+        const dnsPrefetch = document.createElement("link");
+        dnsPrefetch.rel = "dns-prefetch";
+        dnsPrefetch.href = url;
+        document.head.appendChild(dnsPrefetch);
+      }catch(e){ }
+    }
+
+    addPreconnect("https://static1.squarespace.com");
+    addPreconnect("https://images.squarespace-cdn.com");
+
+    if(cardImg){
+      cardImg.loading = "eager";
+      cardImg.decoding = "async";
+      try{ cardImg.fetchPriority = "high"; }catch(e){ }
+    }
+
+    function focusNoScroll(el){
+      try{ el.focus({preventScroll:true}); }catch(e){ try{ el.focus(); }catch(e2){} }
+    }
+
+    function introActive(){
+      return root.getAttribute("data-intro") === "on";
+    }
+
+    function cssVar(name){
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function hexToRgb(hex){
+      let h = (hex || "").trim();
+      if(!h) return null;
+      if(h.startsWith("rgb")) return null;
+      if(h[0] === "#") h = h.slice(1);
+      if(h.length === 3) h = h.split("").map(c => c + c).join("");
+      if(h.length !== 6) return null;
+      const n = parseInt(h, 16);
+      return { r:(n>>16)&255, g:(n>>8)&255, b:n&255 };
+    }
+
+    function rgbaFrom(hex, a){
+      const rgb = hexToRgb(hex);
+      if(!rgb) return null;
+      return `rgba(${rgb.r},${rgb.g},${rgb.b},${a})`;
+    }
+
+    function setSpinGlow(hex){
+      const strong = rgbaFrom(hex, 0.22) || "rgba(255,255,255,0.12)";
+      const soft   = rgbaFrom(hex, 0.08) || "rgba(255,255,255,0.06)";
+      const pulse  = rgbaFrom(hex, 0.22) || "rgba(255,255,255,0.20)";
+      spinBtn.style.setProperty("--spinGlowStrong", strong);
+      spinBtn.style.setProperty("--spinGlowSoft", soft);
+      spinBtn.style.setProperty("--spinGlowPulse", pulse);
+    }
+
+    function blinkPointerDot(hex){
+      pointerDot.style.background = hex;
+      pointerDot.classList.remove("isBlinking");
+      void pointerDot.offsetWidth;
+      pointerDot.classList.add("isBlinking");
+    }
+
+    const data = {
+      personal: {
+        label: "Personal journeys",
+        color: cssVar("--cPersonal") || "#6eb4b9",
+        slides: [
+          { question: "\u201cWhat makes me me?\u201d", topic: "Identity", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/694d3e886a780c249469f2ff/1766669960157/identity-small.jpg", alt:"Identity" },
+          { question: "\u201cWhere can we all find happiness?\u201d", topic: "Happiness", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/694d44d71c2579157b36dd3e/1766671575868/Happiness-Small.jpg", alt:"Happiness" },
+          { question: "\u201cIs social media making us less social?\u201d", topic: "Social Media", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/694d3ebdf116a05a8928dba3/1766670014014/social-small.jpg", alt:"Social media" },
+          { question: "\u201cHow do cultural stories shape our world?\u201d", topic: "Global Cultures", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/69581ccc6ecf7206341653c1/1767382222018/GlobalCultures2-web.png", alt:"Global cultures" },
+          { question: "\u201cWhat makes you say wow?\u201d", topic: "Awe and Wonder", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/694d3ea3a9fdd72696762242/1766669987657/awe-small.jpg", alt:"Awe and wonder" },
+          { question: "\u201cWhat does it mean to be spiritual?\u201d", topic: "Faith and Spirituality", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/69581d4e324ff723bf2a1d63/1767382351510/faith%26spirtuality.png", alt:"Faith and spirituality" }
+        ]
+      },
+      social: {
+        label: "Social journeys",
+        color: cssVar("--cSocial") || "#da6a40",
+        slides: [
+          { question: "\u201cWhat does it mean to belong?\u201d", topic: "Groups and Gangs", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/694d3ed98cf5d42f029558cc/1766670042099/gangs-small.jpg", alt:"Groups and gangs" },
+          { question: "\u201cWhat does fairness mean?\u201d", topic: "Equality", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/694d3ef7a9fdd72696762817/1766670071663/equality+small.jpg", alt:"Equality" },
+          { question: "\u201cWhat does home mean?\u201d", topic: "Homelessness", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/694d3f0eaed3767a8c36212a/1766670094706/homelessness-small.jpg", alt:"Homelessness" },
+          { question: "\u201cWhere do we come from?\u201d", topic: "Refugee Journeys", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/69581d8c88abb67e1129fc7d/1767382413998/refugees-web3.png", alt:"Refugees journeys" },
+          { question: "\u201cIs help always helpful?\u201d", topic: "Kindness and Ethics", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/69581df57c1ee40e93b873b1/1767382519139/Kindness%26Ethics.png", alt:"Kindness and ethics" },
+          { question: "\u201cWhat are the different ways we love?\u201d", topic: "Love and Relationships", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/69581e26635bda57e365b0a9/1767382567458/Love%26Relationships.png", alt:"Love and relationships" }
+        ]
+      },
+      earth: {
+        label: "Earth journeys",
+        color: cssVar("--cEarth") || "#97be70",
+        slides: [
+          { question: "\u201cWhy is our climate changing?\u201d", topic: "Changing Climates", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/694d44025b868f147bcfbb53/1766671363044/climate-small.jpg", alt:"Climate" },
+          { question: "\u201cWho makes our clothes?\u201d", topic: "Clothes", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/694d441ad05118420b61dfbf/1766671386757/clothes-small.jpg", alt:"Clothes" },
+          { question: "\u201cWhy is water so precious?\u201d", topic: "Water", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/694d43dd5ad9a934b73d7351/1766671325995/water-small.jpg", alt:"Water" },
+          { question: "\u201cWhere do things go when we throw them away?\u201d", topic: "Waste", img: "https://static1.squarespace.com/static/65b900c839ea5359386d7897/t/69581e53e49be87856b3c500/1767382612466/Waste-web.png", alt:"Waste" },
+          { question: "\u201cWhat on earth are we eating?\u201d", topic: "Food", img: "https://images.squarespace-cdn.com/content/v1/65b900c839ea5359386d7897/e088b4ba-484d-439a-b255-754e56dd7b8c/Food-web2.png", alt:"Food" },
+          { question: "\u201cHow can we all live well together?\u201d", topic: "Habitats", img: "https://images.squarespace-cdn.com/content/v1/65b900c839ea5359386d7897/0e4999cd-8fd0-4926-a7f9-771f035b3154/habitats-web.png", alt:"Habitats" }
+        ]
+      }
+    };
+
+    setSpinGlow(data.personal.color);
+
+    function warmImageCache(){
+      const urls = Array.from(new Set(
+        Object.keys(data)
+          .flatMap((track) => data[track].slides.map((slide) => slide.img))
+          .filter(Boolean)
+      ));
+      if(!urls.length) return;
+
+      let cursor = 0;
+      const maxConcurrent = 4;
+      function pump(){
+        if(cursor >= urls.length) return;
+        const index = cursor;
+        const url = urls[cursor++];
+        const img = new Image();
+        img.decoding = "async";
+        try{ img.fetchPriority = index < 3 ? "high" : "low"; }catch(e){ }
+        img.onload = img.onerror = () => pump();
+        img.src = url;
+      }
+      for(let i=0;i<Math.min(maxConcurrent, urls.length);i++) pump();
+    }
+
+    if("requestIdleCallback" in window){
+      window.requestIdleCallback(() => warmImageCache(), { timeout: 1200 });
+    }else{
+      setTimeout(warmImageCache, 450);
+    }
+
+    const audioOn = true;
+    let audioCtx = null;
+
+    function isFullscreen(){
+      return !!document.fullscreenElement;
+    }
+
+    async function toggleFullscreen(){
+      try{
+        if(!document.fullscreenElement){
+          await document.documentElement.requestFullscreen();
+        }else{
+          await document.exitFullscreen();
+        }
+      }catch(e){ }
+    }
+
+    const tracks = ["personal","social","earth"];
+    const wedgeSize = 120;
+
+    function polar(cx, cy, r, deg){
+      const a = (deg - 90) * Math.PI / 180;
+      return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+    }
+
+    function donutWedgePath(cx, cy, rOuter, rInner, a0, a1){
+      const p0o = polar(cx, cy, rOuter, a0);
+      const p1o = polar(cx, cy, rOuter, a1);
+      const p1i = polar(cx, cy, rInner, a1);
+      const p0i = polar(cx, cy, rInner, a0);
+      const largeArc = (a1 - a0) <= 180 ? 0 : 1;
+
+      return [
+        `M ${p0o.x} ${p0o.y}`,
+        `A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${p1o.x} ${p1o.y}`,
+        `L ${p1i.x} ${p1i.y}`,
+        `A ${rInner} ${rInner} 0 ${largeArc} 0 ${p0i.x} ${p0i.y}`,
+        "Z"
+      ].join(" ");
+    }
+
+    function placeLabel(el, deg){
+      const p = polar(100, 100, 62, deg);
+      el.setAttribute("x", p.x);
+      el.setAttribute("y", p.y);
+    }
+
+    placeLabel(lblPersonal, 60);
+    placeLabel(lblSocial, 180);
+    placeLabel(lblEarth, 300);
+
+    const bands = {
+      personal: Array.from({length:6}, (_,i) => document.getElementById(`bandPersonal${i}`)),
+      social:   Array.from({length:6}, (_,i) => document.getElementById(`bandSocial${i}`)),
+      earth:    Array.from({length:6}, (_,i) => document.getElementById(`bandEarth${i}`)),
+    };
+
+    function buildBands(){
+      const cx = 100, cy = 100;
+      const rOuter = 98;
+      const rInner = 34;
+      const steps = 6;
+      const step = (rOuter - rInner) / steps;
+
+      const angles = {
+        personal: [0, 120],
+        social:   [120, 240],
+        earth:    [240, 360]
+      };
+
+      tracks.forEach(track => {
+        const [a0, a1] = angles[track];
+        for(let i=0;i<steps;i++){
+          const r0 = rInner + i*step;
+          const r1 = rInner + (i+1)*step;
+
+          const gap = 0.9;
+          const r0g = r0 + gap;
+          const r1g = r1 - gap;
+
+          const d = donutWedgePath(cx, cy, r1g, r0g, a0, a1);
+          bands[track][i].setAttribute("d", d);
+        }
+      });
+    }
+    buildBands();
+
+    const seenByTrack = { personal:0, social:0, earth:0 };
+
+    function clearBandClasses(){
+      tracks.forEach(t => bands[t].forEach(p => p.classList.remove("on","newOn")));
+    }
+
+    function updateBands(trackJustAdvanced){
+      clearBandClasses();
+      tracks.forEach(track => {
+        const onCount = Math.max(0, Math.min(6, seenByTrack[track]));
+        for(let i=0;i<6;i++){
+          if(i < onCount) bands[track][i].classList.add("on");
+        }
+      });
+
+      if(trackJustAdvanced){
+        const idx = Math.max(0, Math.min(5, seenByTrack[trackJustAdvanced] - 1));
+        if(bands[trackJustAdvanced][idx]) bands[trackJustAdvanced][idx].classList.add("newOn");
+      }
+    }
+    updateBands(null);
+
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]] = [arr[j],arr[i]];
+      }
+      return arr;
+    }
+
+    const deck = {
+      personal: shuffle([0,1,2,3,4,5]),
+      social:   shuffle([0,1,2,3,4,5]),
+      earth:    shuffle([0,1,2,3,4,5])
+    };
+
+    let seenCount = 0;
+
+    function remaining(track){ return deck[track].length; }
+    function anyRemaining(){ return remaining("personal")+remaining("social")+remaining("earth"); }
+
+    function updateCounters(){
+      progLine.textContent = `Question ${seenCount} of 18`;
+    }
+
+    function resetAllDecks(){
+      deck.personal = shuffle([0,1,2,3,4,5]);
+      deck.social   = shuffle([0,1,2,3,4,5]);
+      deck.earth    = shuffle([0,1,2,3,4,5]);
+
+      seenCount = 0;
+      seenByTrack.personal = 0;
+      seenByTrack.social = 0;
+      seenByTrack.earth = 0;
+      updateBands(null);
+      updateCounters();
+    }
+
+    function setStatus(t){ statusLine.textContent = t; }
+    function setSpinLabel(t){ spinLabel.textContent = t; }
+
+    function normAngle(deg){
+      let a = deg % 360;
+      if(a < 0) a += 360;
+      return a;
+    }
+
+    function trackFromRotation(rot){
+      const a = normAngle(rot);
+      const underPointer = normAngle(360 - a);
+      const wedgeIndex = Math.floor(underPointer / wedgeSize);
+      return tracks[wedgeIndex];
+    }
+
+    function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+    let currentRotation = 0;
+
+    function animateTo(target, ms, done){
+      const start = performance.now();
+      const from = currentRotation;
+      const delta = target - from;
+
+      function frame(now){
+        const t = Math.min(1, (now - start)/ms);
+        const eased = easeOutCubic(t);
+        wheelGroup.setAttribute("transform", `rotate(${from + delta*eased} 100 100)`);
+        if(t < 1) requestAnimationFrame(frame);
+        else{ currentRotation = target; done && done(); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    let lastTrack = null;
+    let streak = 0;
+
+    function chooseTrack(){
+      if(anyRemaining() === 0) resetAllDecks();
+
+      let available = tracks.filter(t => remaining(t) > 0);
+
+      if(lastTrack && available.length > 1){
+        const nonRepeat = available.filter(t => t !== lastTrack);
+        if(nonRepeat.length) available = nonRepeat;
+      }
+      if(lastTrack && streak >= 1 && available.length > 1){
+        const away = available.filter(t => t !== lastTrack);
+        if(away.length) return away[Math.floor(Math.random()*away.length)];
+      }
+      return available[Math.floor(Math.random()*available.length)];
+    }
+
+    function nextUniqueFor(track){
+      if(anyRemaining() === 0) resetAllDecks();
+      if(remaining(track) === 0){
+        const available = tracks.filter(t => remaining(t) > 0);
+        track = available[Math.floor(Math.random()*available.length)];
+      }
+      const idx = deck[track].pop();
+      return { track, idx, slide: data[track].slides[idx] };
+    }
+
+    function renderPick(pick){
+      const pack = data[pick.track];
+      const slide = pick.slide;
+
+      tagText.textContent = pack.label;
+      tagDot.style.background = pack.color;
+
+      cardImg.src = slide.img;
+      cardImg.alt = slide.alt || "";
+      cardQ.textContent = slide.question;
+      cardTopic.textContent = (slide.topic || "").toUpperCase();
+
+      setSpinGlow(pack.color);
+      blinkPointerDot(pack.color);
+
+      imgCard.classList.add("isLive");
+      setTimeout(() => imgCard.classList.remove("isLive"), 900);
+    }
+
+    let idleTimer = null;
+    let idleToAutoTimer = null;
+    let autoSpinTimer = null;
+    let autoReturnTimer = null;
+    const IDLE_TO_AUTO_MS = 60000;
+    const AUTO_TO_INTRO_MS = 120000;
+    const AUTO_SPIN_EVERY_MS = 12000;
+    let autoMode = false;
+    let spinning = false;
+    let revertRequested = false;
+
+    function clearIdleToAutoTimer(){
+      if(idleToAutoTimer){
+        clearTimeout(idleToAutoTimer);
+        idleToAutoTimer = null;
+      }
+    }
+
+    function clearAutoSpinTimer(){
+      if(autoSpinTimer){
+        clearTimeout(autoSpinTimer);
+        autoSpinTimer = null;
+      }
+    }
+
+    function clearAutoReturnTimer(){
+      if(autoReturnTimer){
+        clearTimeout(autoReturnTimer);
+        autoReturnTimer = null;
+      }
+    }
+
+    function scheduleIdleToAuto(){
+      clearIdleToAutoTimer();
+      if(introActive()) return;
+      idleToAutoTimer = setTimeout(() => {
+        startAutoMode();
+      }, IDLE_TO_AUTO_MS);
+    }
+
+    function stopAutoMode(){
+      autoMode = false;
+      clearAutoSpinTimer();
+      clearAutoReturnTimer();
+    }
+
+    function scheduleNextAutoSpin(delay){
+      clearAutoSpinTimer();
+      if(introActive() || !autoMode) return;
+      const wait = typeof delay === "number" ? delay : AUTO_SPIN_EVERY_MS;
+      autoSpinTimer = setTimeout(() => {
+        if(introActive() || !autoMode) return;
+        if(!spinning) spin(true);
+        scheduleNextAutoSpin(AUTO_SPIN_EVERY_MS);
+      }, wait);
+    }
+
+    function startAutoMode(){
+      if(introActive() || autoMode) return;
+      autoMode = true;
+      clearIdleToAutoTimer();
+      setStatus("Auto mode is running.");
+      if(!spinning) spin(true);
+      scheduleNextAutoSpin(AUTO_SPIN_EVERY_MS);
+      clearAutoReturnTimer();
+      autoReturnTimer = setTimeout(() => {
+        revertToIntro();
+      }, AUTO_TO_INTRO_MS);
+    }
+
+    function setIdlePulse(){
+      clearTimeout(idleTimer);
+      spinBtn.classList.remove("isPulsing");
+      idleTimer = setTimeout(() => {
+        if(!spinning) spinBtn.classList.add("isPulsing");
+      }, 5500);
+    }
+
+    function ensureAudio(){
+      if(!audioOn) return;
+      if(audioCtx) return;
+      try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+      catch(e){ audioCtx = null; }
+    }
+
+    function tick(){
+      if(!audioOn || !audioCtx) return;
+      const t = audioCtx.currentTime;
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type="square";
+      o.frequency.setValueAtTime(1300, t);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.045, t+0.001);
+      g.gain.exponentialRampToValueAtTime(0.0001, t+0.028);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t+0.03);
+    }
+
+    function scheduleTicks(ms){
+      if(!audioOn || !audioCtx) return;
+      const start = performance.now();
+      let last = start;
+
+      function loop(now){
+        const e = now - start;
+        if(e >= ms) return;
+        const p = e / ms;
+        const interval = 50 + (p*p) * 135;
+        if(now - last >= interval){ tick(); last = now; }
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    }
+
+    function spin(isAuto){
+      if(spinning || introActive()) return;
+      spinning = true;
+
+      spinBtn.classList.remove("isPulsing");
+      clearTimeout(idleTimer);
+      clearAutoSpinTimer();
+
+      if(!isAuto){
+        stopAutoMode();
+        scheduleIdleToAuto();
+      }
+
+      ensureAudio();
+      if(audioOn && audioCtx && audioCtx.state === "suspended"){
+        audioCtx.resume().catch(()=>{});
+      }
+
+      setSpinLabel("...");
+      spinBtn.disabled = true;
+      setStatus("Choosing a question\u2026");
+
+      const targetTrack = chooseTrack();
+
+      if(targetTrack === lastTrack) streak += 1;
+      else streak = 0;
+
+      const wedgeIndex = tracks.indexOf(targetTrack);
+      const mid = wedgeIndex * wedgeSize + wedgeSize/2;
+      const desiredRot = 360 - mid;
+
+      const turns = 5 + Math.floor(Math.random()*3);
+      const target = currentRotation + turns*360 + desiredRot;
+      const duration = 2100 + Math.random()*650;
+
+      if(!reduceMotion) scheduleTicks(duration);
+
+      const finish = () => {
+        const landed = trackFromRotation(currentRotation);
+        const pick = nextUniqueFor(landed);
+
+        seenCount += 1;
+        updateCounters();
+        renderPick(pick);
+
+        if(seenByTrack[pick.track] < 6) seenByTrack[pick.track] += 1;
+        updateBands(pick.track);
+
+        if(autoMode) setStatus("Auto mode is running.");
+        else setStatus(anyRemaining() ? "Spin again when you\u2019re ready." : "That\u2019s all 18. Spin to begin a fresh round.");
+        setSpinLabel("Spin");
+        spinBtn.disabled = false;
+        spinning = false;
+
+        lastTrack = pick.track;
+
+        if(revertRequested){
+          revertToIntro();
+          return;
+        }
+
+        focusNoScroll(spinBtn);
+        if(!autoMode) setIdlePulse();
+      };
+
+      if(reduceMotion){
+        currentRotation = target;
+        wheelGroup.setAttribute("transform", `rotate(${currentRotation} 100 100)`);
+        finish();
+        return;
+      }
+
+      animateTo(target, duration, finish);
+    }
+
+    function revertToIntro(){
+      if(introActive()) return;
+      if(spinning){
+        revertRequested = true;
+        return;
+      }
+      revertRequested = false;
+      clearTimeout(idleTimer);
+      clearIdleToAutoTimer();
+      stopAutoMode();
+      spinBtn.classList.remove("isPulsing");
+      spinBtn.disabled = false;
+      setSpinLabel("Spin");
+      setStatus("A conversation is waiting to unfold.");
+      root.setAttribute("data-intro", "on");
+      if(introGate){
+        introGate.classList.remove("isHidden");
+        focusNoScroll(introGate);
+      }
+    }
+
+    function startExperience(){
+      if(!introActive()) return;
+      root.setAttribute("data-intro", "off");
+      if(introGate) introGate.classList.add("isHidden");
+      ensureAudio();
+      if(audioCtx && audioCtx.state === "suspended"){
+        audioCtx.resume().catch(()=>{});
+      }
+      revertRequested = false;
+      stopAutoMode();
+      scheduleIdleToAuto();
+      setIdlePulse();
+      focusNoScroll(spinBtn);
+      setTimeout(() => {
+        if(!introActive() && !spinning) spin(true);
+      }, 320);
+    }
+
+    if(introGate){
+      introGate.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        startExperience();
+      }, { passive:false });
+
+      introGate.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        startExperience();
+      });
+
+      introGate.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          startExperience();
+        }
+      });
+    }
+
+    spinBtn.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      spinBtn.classList.remove("isPulsing");
+      spin(false);
+      focusNoScroll(spinBtn);
+    }, {passive:false});
+
+    spinBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      spin(false);
+      focusNoScroll(spinBtn);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if(introActive() && (e.key === "Enter" || e.key === " ")){
+        e.preventDefault();
+        startExperience();
+        return;
+      }
+      if(e.key && e.key.toLowerCase() === "f"){
+        e.preventDefault();
+        toggleFullscreen();
+      }
+    });
+
+    function renderGameToText(){
+      const payload = {
+        coordinate_system: "CSS pixels; origin top-left; x right, y down",
+        mode: introActive() ? "intro" : (spinning ? "spinning" : "idle"),
+        current_track: lastTrack,
+        current_question: cardQ.textContent,
+        current_topic: cardTopic.textContent,
+        progress: { seen: seenCount, total: 18, by_track: seenByTrack },
+        ui: {
+          status: statusLine.textContent,
+          spin_button_disabled: !!spinBtn.disabled,
+          audio: "on",
+          fullscreen: isFullscreen()
+        }
+      };
+      return JSON.stringify(payload);
+    }
+
+    window.render_game_to_text = renderGameToText;
+    window.advanceTime = (ms) => {
+      if(ms <= 0) return;
+      return;
+    };
+
+    updateCounters();
+    if(introActive() && introGate){
+      focusNoScroll(introGate);
+    }
+    if(!introActive()){
+      scheduleIdleToAuto();
+      setIdlePulse();
+    }
+  }
+
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
+</script>
